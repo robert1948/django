@@ -217,14 +217,15 @@ class RegisterLookupMixin:
         if lookup_name is None:
             lookup_name = lookup.lookup_name
         del cls.class_lookups[lookup_name]
+        cls._clear_cached_lookups()
 
 
 def select_related_descend(field, restricted, requested, load_fields, reverse=False):
     """
     Return True if this field should be used to descend deeper for
     select_related() purposes. Used by both the query construction code
-    (sql.query.fill_related_selections()) and the model instance creation code
-    (query.get_klass_info()).
+    (compiler.get_related_selections()) and the model instance creation code
+    (compiler.klass_info).
 
     Arguments:
      * field - the field to be checked

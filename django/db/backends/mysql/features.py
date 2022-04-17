@@ -57,6 +57,17 @@ class DatabaseFeatures(BaseDatabaseFeatures):
             return (5, 7)
 
     @cached_property
+    def bare_select_suffix(self):
+        if (
+            self.connection.mysql_is_mariadb and self.connection.mysql_version < (10, 4)
+        ) or (
+            not self.connection.mysql_is_mariadb
+            and self.connection.mysql_version < (8,)
+        ):
+            return " FROM DUAL"
+        return ""
+
+    @cached_property
     def test_collations(self):
         charset = "utf8"
         if self.connection.mysql_is_mariadb and self.connection.mysql_version >= (
@@ -317,6 +328,8 @@ class DatabaseFeatures(BaseDatabaseFeatures):
 
     @cached_property
     def supports_index_column_ordering(self):
+        if self._mysql_storage_engine != "InnoDB":
+            return False
         if self.connection.mysql_is_mariadb:
             return self.connection.mysql_version >= (10, 8)
         return self.connection.mysql_version >= (8, 0, 1)
@@ -325,5 +338,6 @@ class DatabaseFeatures(BaseDatabaseFeatures):
     def supports_expression_indexes(self):
         return (
             not self.connection.mysql_is_mariadb
+            and self._mysql_storage_engine != "MyISAM"
             and self.connection.mysql_version >= (8, 0, 13)
         )
