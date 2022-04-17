@@ -3,7 +3,7 @@ Django
 ======
 
 Django is a high-level Python web framework that encourages rapid development
-and clean, pragmatic design. Thanks for checking it out.
+and clean, pragmatic design. Thanks for checking it out. My Change1
 
 All documentation is in the "``docs``" directory and online at
 https://docs.djangoproject.com/en/stable/. If you're just getting started,
@@ -49,6 +49,6 @@ To run Django's test suite:
 Supporting the Development of Django
 ====================================
 
-Django's development depends on your contributions. 
+Django's development depends on your contributions.
 
 If you depend on Django, remember to support the Django Software Foundation: https://www.djangoproject.com/fundraising/
